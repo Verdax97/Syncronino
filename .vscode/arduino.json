@@ -1,0 +1,6 @@
+{
+    "board": "arduino:avr:mega",
+    "programmer": "AVRISP mkII",
+    "sketch": "main.ino",
+    "configuration": "cpu=atmega2560"
+}
