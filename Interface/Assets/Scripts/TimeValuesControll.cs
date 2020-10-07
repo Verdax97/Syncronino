@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,48 +7,38 @@ using UnityEngine.UI;
 public class TimeValuesControll : MonoBehaviour
 {
     public Button button;
-    public Slider slider;
     public TMP_InputField timingInput;
     public TMP_InputField valueInput;
-    public TMP_Dropdown notesDropdown;
+
+    public GameObject fadePanel;
+    public TMP_Dropdown fadeDropdown;
 
     public SingleElementPlay comunications;
 
-    public bool active = true;
-    Tones tones = null;
-    private void Start()
-    {
-        if (notesDropdown != null)
-        {
-            tones = new Tones();
-            foreach (Tone tone in tones.tones)
-            {
-                notesDropdown.AddOptions(new List<string>() { tone.name});
-            }
-        }
-    }
+    public bool active = false;
+    public bool single = false;
 
-    //update the text under the slider
-    public void ModifiedSlider()
+    public float fadeIntensity = 5;
+    public void ModifiedTiming()
     {
-        valueInput.text = slider.value.ToString();
+        comunications.ControlTiming();
     }
 
     //update the slider value
-    public void ModifiedValue()
+    public virtual void ModifiedValue()
     {
-        if (slider == null)
-            return;
-        float val = int.Parse(valueInput.text);
-        if (val > slider.maxValue)
-            val = slider.maxValue;
-        slider.value = val;
     }
 
+    public virtual void SetValue(string[] values)
+    {
+        timingInput.text = values[0];
+        valueInput.text = values[1];
+        ModifiedValue();
+    }
 
     public void ButtonPress()
     {
-        if (comunications == null)
+        if (!single)
         {
             ToggleButton();
             return;
@@ -81,28 +70,45 @@ public class TimeValuesControll : MonoBehaviour
         }
     }
 
-    public string PassString()
+    public virtual string PassString()
     {
-        string str;
-        if (notesDropdown != null)
-        {
-            int index = notesDropdown.value;
-            int temp = int.Parse(valueInput.text);
-            str = temp.ToString() + " ";
-            str += ((Tone)tones.tones[index]).value.ToString(); 
-        }
-        else
-        {
-            str = slider.value.ToString();
-        }
-        return str + " ";
+        return " ";
     }
 
-    public void ModifyMaxValue(int maxValue)
+    public virtual void ModifyMaxValue(int maxValue)
     {
-        if (slider == null)
-            return;
-        slider.maxValue = maxValue;
+    }
+
+    public virtual string GetValue()
+    {
+        return " ";
+    }
+
+    public void Delete()
+    {
+        Destroy(gameObject);
+    }
+
+    public void ShowFade()
+    {
+        fadePanel.SetActive(!fadePanel.activeSelf);
+    }
+
+    public string FadeType()
+    {
+        switch (fadeDropdown.value)
+        {
+            case 0://none
+                return "n";
+            case 1://linear
+                return "l";
+            case 2://exponential
+                return "e";
+            case 3://logaritmic
+                return "g";
+            default://none
+                return "n";
+        }
     }
 }
 

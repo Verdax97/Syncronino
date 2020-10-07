@@ -1,6 +1,7 @@
 {
-    "board": "arduino:avr:mega",
+    "sketch": "main\\main.ino",
+    "board": "arduino:avr:nano",
+    "configuration": "cpu=atmega328old",
     "programmer": "AVRISP mkII",
-    "sketch": "main.ino",
-    "configuration": "cpu=atmega2560"
+    "port": "COM5"
 }

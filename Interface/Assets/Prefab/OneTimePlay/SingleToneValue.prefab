@@ -147,7 +147,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -0.000015258789, y: 17.96}
+  m_AnchoredPosition: {x: 0, y: 17.959991}
   m_SizeDelta: {x: -0.000015258789, y: 35.03807}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &575756672384488655
@@ -231,7 +231,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5100886858349238790}
+      - m_Target: {fileID: -6100297774220290571}
         m_TargetAssemblyTypeName: TimeValuesControll, Assembly-CSharp
         m_MethodName: ButtonPress
         m_Mode: 1
@@ -432,11 +432,11 @@ RectTransform:
   m_Father: {fileID: 7596127025036141591}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 90.92}
-  m_SizeDelta: {x: -8, y: 37.167908}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 0, y: 35.47}
+  m_SizeDelta: {x: 122, y: 37.167908}
+  m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &7962943123297139877
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -536,7 +536,7 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5100886858349238790}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: TimeValuesControll, Assembly-CSharp
         m_MethodName: ModifiedValue
         m_Mode: 1
@@ -796,7 +796,7 @@ GameObject:
   - component: {fileID: 7596127025036141591}
   - component: {fileID: 3131757387672709727}
   - component: {fileID: 7588843925927054070}
-  - component: {fileID: 5100886858349238790}
+  - component: {fileID: -6100297774220290571}
   m_Layer: 5
   m_Name: SingleToneValue
   m_TagString: Untagged
@@ -821,11 +821,11 @@ RectTransform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 152.48975, y: 259.12146}
-  m_Pivot: {x: 0, y: 1}
+  m_SizeDelta: {x: 130, y: 225}
+  m_Pivot: {x: 1, y: 1}
 --- !u!222 &3131757387672709727
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -864,7 +864,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &5100886858349238790
+--- !u!114 &-6100297774220290571
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -873,16 +873,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 3558925078225356742}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06f9f1f2042f2204981033a0b1dafd48, type: 3}
+  m_Script: {fileID: 11500000, guid: 5b080cf942fa10048ab90e91e1194766, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   button: {fileID: 3520158667748247760}
-  slider: {fileID: 0}
   timingInput: {fileID: 0}
   valueInput: {fileID: 2147170711384603050}
-  notesDropdown: {fileID: 6253883129677887436}
+  fadePanel: {fileID: 0}
   comunications: {fileID: 0}
   active: 0
+  single: 1
+  notesDropdown: {fileID: 6253883129677887436}
 --- !u!1 &3791468185880433168
 GameObject:
   m_ObjectHideFlags: 0
@@ -1613,7 +1614,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.15000153, y: -0.5}
+  m_AnchoredPosition: {x: 0.15002441, y: -0.5}
   m_SizeDelta: {x: -7.30011, y: -13}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &8919854645020729460
