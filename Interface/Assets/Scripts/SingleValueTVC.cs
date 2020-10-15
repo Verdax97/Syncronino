@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,9 +31,13 @@ public class SingleValueTVC : TimeValuesControll
         valueInput.text = slider.value.ToString();
     }
 
-    public override string GetValue()
+    public override List<string> GetValue()
     {
-        return valueInput.text;
+        List<string> a = new List<string>
+        {
+            valueInput.text
+        };
+        return a;
     }
 
     public void ModifyIntesifies()

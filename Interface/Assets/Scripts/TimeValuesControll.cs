@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -79,9 +79,9 @@ public class TimeValuesControll : MonoBehaviour
     {
     }
 
-    public virtual string GetValue()
+    public virtual List<string> GetValue()
     {
-        return " ";
+        return null;
     }
 
     public void Delete()

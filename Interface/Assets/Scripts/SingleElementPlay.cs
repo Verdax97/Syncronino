@@ -12,6 +12,8 @@ public class SingleElementPlay : MonoBehaviour
     public TMP_Dropdown dropdown;
     public GameObject scrollView;
     public TMP_InputField pin;
+    public TMP_InputField pin2;
+    public TMP_InputField pin3;
     public TMP_InputField maxValue;
     public TMP_InputField actuatorName;
 
@@ -66,7 +68,6 @@ public class SingleElementPlay : MonoBehaviour
 
     public IEnumerator PlayWithFade()
     {
-        string debug = "";
         float timing = 0;
         //if one imput is not inserted do nothing
         if (!(pin.text == ""))
@@ -112,9 +113,9 @@ public class SingleElementPlay : MonoBehaviour
         //get the next TimeValuesControll
         TimeValuesControll nextTvc = scrollView.transform.GetChild(index+1).GetComponent<TimeValuesControll>();
         //get the starting value
-        int startValue = int.Parse(TVC.GetValue());
+        List<string> startValue = TVC.GetValue();
         //get the ending value
-        int endValue = int.Parse(nextTvc.GetValue());
+        List<string> endValue = nextTvc.GetValue();
         //get the start time
         float startTime = float.Parse(TVC.timingInput.text);
         //get the end time
@@ -131,10 +132,15 @@ public class SingleElementPlay : MonoBehaviour
             //if the timing is higher than the end time break the loop
             if (timing >= endTime)
                 break;
-            //calc the new value
-            int newVal = CalcFade(TVC.FadeType(), startValue, endValue, timing - startTime, endTime - startTime, TVC.fadeIntensity);
+            string str = "";
+            for (int i = 0; i < startValue.Count; i++)
+            {
+                //calc the new value
+                int newVal = CalcFade(TVC.FadeType(), int.Parse(startValue[i]), int.Parse(endValue[i]), timing - startTime, endTime - startTime, TVC.fadeIntensity);
+                str += newVal.ToString() + " ";
+            }
             //add to the list
-            lista.Add(new Lista(BuildString(newVal.ToString() + " "), Round(timing)));
+            lista.Add(new Lista(BuildString(str), Round(timing)));
         }
         return lista;
     }
@@ -216,8 +222,12 @@ public class SingleElementPlay : MonoBehaviour
         string str = "s";
         str += Type();
         //add pin and value
-        str += pin.text + " " + val;
-        return str;
+        str += pin.text;
+        if (pin2.gameObject.activeSelf)
+            str += " " + pin2.text;
+        if (pin3.gameObject.activeSelf)
+            str += " " + pin3.text;
+        return str + " " + val;
     }
 
     //called when modified the max value input
@@ -248,6 +258,10 @@ public class SingleElementPlay : MonoBehaviour
         {
             toInstantiate = toneKeyframe;
         }
+        else if (dropdown.captionText.text == "RGB")
+        {
+            toInstantiate = RGBKeyframe;
+        }
         else
         {
             toInstantiate = defaultKeyframe;
@@ -277,6 +291,8 @@ public class SingleElementPlay : MonoBehaviour
 
     public void ChangeType()
     {
+        pin2.gameObject.SetActive(false);
+        pin3.gameObject.SetActive(false);
         foreach (Transform child in scrollView.transform)
         {
             Destroy(child.gameObject);
@@ -289,7 +305,9 @@ public class SingleElementPlay : MonoBehaviour
         }
         else if (dropdown.captionText.text == "RGB")
         {
-            singleValue = Instantiate(singleDefaultPrefab, singleValueParent.transform).GetComponent<TimeValuesControll>();
+            pin2.gameObject.SetActive(true);
+            pin3.gameObject.SetActive(true);
+            singleValue = Instantiate(singleRGBPrefab, singleValueParent.transform).GetComponent<TimeValuesControll>();
         }
         else
         {

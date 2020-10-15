@@ -29,9 +29,13 @@ public class ToneTVC : TimeValuesControll
         return temp.ToString() + " " + ((Tone)tones.tones[index]).value.ToString() + " ";
     }
 
-    public override string GetValue()
+    public override List<string> GetValue()
     {
-        return valueInput.text + " " + notesDropdown.captionText.text;
+        List<string> a = new List<string>
+        {
+            valueInput.text + " " + notesDropdown.captionText.text
+        };
+        return a;
     }
 
     public override void SetValue(string[] values)

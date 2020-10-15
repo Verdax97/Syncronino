@@ -46,7 +46,7 @@ public class ComunicationsController : MonoBehaviour
         }
         //write the message passed
         arduino.Write(stringa);
-        //Debug.Log("stringa inviata: " + stringa);
+        Debug.Log("stringa inviata: " + stringa);
     }
 
     public void PlayALL()
