@@ -20,8 +20,10 @@ public class SaverController : MonoBehaviour
 
     public void Save()
     {
-        string path = Application.dataPath + "/" + fileName.text.Replace(' ', '_') + ".txt";
-        string path1 = Application.dataPath + "/" + fileName.text.Replace(' ', '_') + "Actuators.txt";
+        System.IO.Directory.CreateDirectory(Application.dataPath + "/Animations/");
+        System.IO.Directory.CreateDirectory(Application.dataPath + "/Animations/Actuators");
+        string path = Application.dataPath + "/Animations/" + fileName.text.Replace(' ', '_') + ".txt";
+        string path1 = Application.dataPath + "/Animations/Actuators/" + fileName.text.Replace(' ', '_') + "Actuators.txt";
         File.WriteAllText(path, SaveAnimationString(GetComponent<PlayController>().CreateList()));
         File.WriteAllText(path1, SaveAnimation());
     }
@@ -87,8 +89,8 @@ public class SaverController : MonoBehaviour
     {
         if (fileName.text == "")
             return;
-            
-        string path = Application.dataPath + "/" + fileName.text.Replace(' ', '_') + "Actuators.txt";
+
+        string path = Application.dataPath + "/Animations/Actuators/" + fileName.text.Replace(' ', '_') + "Actuators.txt";
         string[] lines = File.ReadAllLines(path);
         if (lines.Length == 0)
         {

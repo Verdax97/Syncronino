@@ -6,6 +6,12 @@ using UnityEngine.UI;
 
 public class SingleElementPlay : MonoBehaviour
 {
+
+    public Color digital;
+    public Color analog;
+    public Color servo;
+    public Color buzzer;
+    public Color rgb;
     public TMP_Dropdown dropdown;
     public GameObject scrollView;
     public TMP_InputField pin;
@@ -284,6 +290,26 @@ public class SingleElementPlay : MonoBehaviour
         singleValue.comunications = this;
         if (maxValue.text != "")
             singleValue.ModifyMaxValue(int.Parse(maxValue.text));
+        switch(dropdown.captionText.text)
+        {
+            case Constants.DIGITAL_TYPE:
+                GetComponent<Image>().color = digital;
+                break;
+            case Constants.ANALOG_TYPE:
+                GetComponent<Image>().color = analog;
+                break;
+            case Constants.SERVO_TYPE:
+                GetComponent<Image>().color = servo;
+                break;
+            case Constants.BUZZER_TYPE:
+                GetComponent<Image>().color = buzzer;
+                break;
+            case Constants.RGB_TYPE:
+                GetComponent<Image>().color = rgb;
+                break;
+            default:
+                return;
+        }
     }
 
     public virtual void SetPin(List<string> pins)
