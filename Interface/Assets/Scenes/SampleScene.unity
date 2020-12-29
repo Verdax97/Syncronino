@@ -1373,11 +1373,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7098881867399c4db7d7c1d25643aba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scroll: {fileID: 1089459622}
   portName: {fileID: 1280732330}
-  fileName: {fileID: 1682267055}
-  actuatorParent: {fileID: 1089459622}
-  actuator: {fileID: 1755813426857812490, guid: 3b4a998004c7f344abb2629db2c02b29, type: 3}
+  debug: 0
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
