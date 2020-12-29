@@ -1,110 +1,112 @@
 #include <Servo.h>
-
-#define e 2.71828182846
-
-#define maxNServo 12
-#define number <= '9' >= '0' 
+//define the pin used for debug
 #define debugPin 2
 int debug = 1;
-
+//saved animation
 String anim;
-
+//index for the saved animation
 int index = 0;
+//define lenght of the servo array
+#define maxNServo 12
+//the servo array 
 Servo servos[maxNServo];
+//the array with the pin value of the servos
 int servosPin[maxNServo];
+//number of servos actually used
 int nServos = 0;
-
-Servo servo;
-char readByte;
-
-
-unsigned long timee = 0, timing = 0, delta = 0, last= 0;
+//variables for controlling the animation flow
+unsigned long elapsedTime = 0, nextTiming = 0, delta = 0, last = 0;
 
 void setup()
 {
-    debug = 1;
-    pinMode(21, OUTPUT);
-    
-    digitalWrite(21, 1);
-    delay(500);
-    digitalWrite(21, 0);
-    Serial.begin(9600);
+    //init serial connection
+    Serial.begin(19200);
 }
 
 void loop()
 {
+    //reset variables
     index = 0;
-    timee = 0;
-    timing = 0;
+    elapsedTime = 0;
+    nextTiming = 0;
+    //play animation
     playAnimation();
 }
 
 void playAnimation()
 {
-  switch (waitAndReadChar()) 
+    switch (waitAndReadChar())
     {
-        case 'n':
-            break;
-        case 's':
-            selectActuator();
-            break;
-        case 't':
-            timing = waitAndReadFloat() * 1000;
-            //delay((int)timing - (int)timee);
-            break;
-        case 'r':
-            return;
-        default:
-            // statements
-            return;
+    case 'n':
+        //for initializing new 
+        break;
+    case 's':
+        //select one of the actuators
+        selectActuator();
+        break;
+    case 't':
+        //modify the timing
+        nextTiming = waitAndReadFloat() * 1000;
+        break;
+    case 'r':
+        //end of animation
+        return;
+    default:
+        //default
+        return;
     }
 }
 
 void playSavedAnimation()
 {
-  while (index < anim.length())
-  {
-    if (timee >= timing)
+    while (index < anim.length())
     {
-      Serial.print("-----time: ");
-  Serial.print(timee);
-  Serial.print(" timing: ");
-  Serial.println(timee);
-  
-        playAnimation();
-    }
+        //check if 
+        if (elapsedTime >= nextTiming)
+        {
+            Serial.print("-----time: ");
+            Serial.print(elapsedTime);
+            Serial.print(" nextTiming: ");
+            Serial.println(elapsedTime);
+            playAnimation();
+        }
 
-    delta = millis() - last;
-    timee += delta;
-    last = timee;
-  }
+        delta = millis() - last;
+        elapsedTime += delta;
+        last = elapsedTime;
+    }
 }
 
 char waitAndReadChar()
 {
-    if (debug == 1){
-    while (Serial.available() <= 0)
-    ;
-    return Serial.read();
-    }
-    if (anim[index] == ' ')
+    if (debug == 1)
     {
-        index++;
+        //wait for serial message
+        while (Serial.available() <= 0)
+            ;
+        //read the byte
+        return Serial.read();
     }
+
+    if (anim[index] == ' ')
+        index++;
     index++;
-    return anim[index-1];
+    return anim[index - 1];
 }
 
 float waitAndReadFloat()
 {
-  if (debug == 1)
-  {
-      while (Serial.available() <= 0)
-      ;
-      return Serial.parseFloat();
-  }
+    if (debug == 1)
+    {
+        //wait for serial message
+        while (Serial.available() <= 0)
+            ;
+        //read the float
+        return Serial.parseFloat();
+    }
+
     if (anim[index] == ' ')
-            index++;
+        index++;
     String val = "";
     while (anim[index] != ' ')
     {
@@ -119,10 +121,13 @@ int waitAndReadInt()
 {
     if (debug == 1)
     {
-      while (Serial.available() <= 0)
-      ;
-      return Serial.parseInt();
+        //wait for serial message
+        while (Serial.available() <= 0)
+            ;
+        //read the int
+        return Serial.parseInt();
     }
+
     if (anim[index] == ' ')
         index++;
     String val = "";
@@ -136,36 +141,45 @@ int waitAndReadInt()
 
 void selectActuator()
 {
-    switch (waitAndReadChar()) 
+    switch (waitAndReadChar())
     {
-        case 'a':
-            changeAnalog(waitAndReadInt());
-            break;
-        case 'b':
-            changeBuzzer(waitAndReadInt());
-            break;
-        case 's':
-            changeServo();
-            break;
-        case 'd':
-            changeDigital(waitAndReadInt());
-            break;
-        case 'l':
-            changeRGB();
-        default:
-            // statements
-            break;
+    case 'a':
+        //modify analog actuator
+        changeAnalog(waitAndReadInt());
+        break;
+    case 'b':
+        //modify buzzer
+        changeBuzzer(waitAndReadInt());
+        break;
+    case 'd':
+        //modify digital actuator
+        changeDigital(waitAndReadInt());
+        break;
+    case 'l':
+        //modify rgb actuator
+        changeRGB();
+        break;
+    case 's':
+        //modify servo
+        changeServo();
+        break;
+    default:
+        //default
+        break;
     }
 }
 
 int searchServo(int pin)
 {
+    //search for the servo in the array
     for (int i = 0; i < nServos; i++)
-        if (servosPin[i] == pin)   
+        if (servosPin[i] == pin)
+            //servo founded
             return i;
+    //servo not found so 
     if (nServos == maxNServo)
         return -1;
-    
+    //servo not found so add it to the array
     servosPin[nServos] = pin;
     servos[nServos].attach(pin);
     return nServos++;
@@ -173,47 +187,57 @@ int searchServo(int pin)
 
 void changeServo()
 {
+    //search the servo index in the array
     int index = searchServo(waitAndReadInt());
     if (index < 0)
+        //do nothing cause is out of the array
         return;
+    //modify servo value
     servos[index].write(waitAndReadInt());
 }
 
 void changeAnalog(int num)
 {
+    //set pinMode
     pinMode(num, OUTPUT);
+    //write to analog
     analogWrite(num, waitAndReadInt());
 }
 
 void changeDigital(int num)
 {
+    //set pinMode
     pinMode(num, OUTPUT);
-    int a = waitAndReadInt();
-    digitalWrite(num, a);
+    //write to digital
+    digitalWrite(num, waitAndReadInt());
 }
 
 void changeBuzzer(int num)
 {
-  int timing = waitAndReadInt();
-  int note = waitAndReadInt();
-  if (note == 0)
-  {
-    waitAndReadInt();
-    tone(num, note, 1);
-    return;
-  }
+    int timing = waitAndReadInt();
+    int note = waitAndReadInt();
+    if (note == 0)
+    {
+        //almost like doing nothing to not crash if the frequence is set to 0
+        waitAndReadInt();
+        tone(num, note, 1);
+        return;
+    }
     tone(num, note, timing);
 }
 
 void changeRGB()
 {
-  int r = waitAndReadInt();
-  int g = waitAndReadInt();
-  int b = waitAndReadInt();
-  pinMode(r, OUTPUT);
-  pinMode(g, OUTPUT);
-  pinMode(b, OUTPUT);
-  analogWrite(r, waitAndReadInt());
-  analogWrite(g, waitAndReadInt());
-  analogWrite(b, waitAndReadInt());
+    //get pins value
+    int r = waitAndReadInt();
+    int g = waitAndReadInt();
+    int b = waitAndReadInt();
+    //set pinsMode
+    pinMode(r, OUTPUT);
+    pinMode(g, OUTPUT);
+    pinMode(b, OUTPUT);
+    //analog write the values to the pins
+    analogWrite(r, waitAndReadInt());
+    analogWrite(g, waitAndReadInt());
+    analogWrite(b, waitAndReadInt());
 }
