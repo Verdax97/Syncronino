@@ -16,24 +16,28 @@ public class ComunicationsController : MonoBehaviour
     #endregion
 
     public SerialPort arduino;
-    public TMP_InputField portName;
+    public TMP_Dropdown portDropdown;
     public bool debug;
     //used to connect the selected port
     public void ConnectToPort()
     {
+        string port;
         //if the port is still open close it
         if (arduino!= null && arduino.IsOpen)
             arduino.Close();
-        //if the port name is empty do nothing
-        if (portName.text == "")
+        if (portDropdown.options[portDropdown.value].text == "")
         {
-            Debug.LogError("Enter a valid Port");
+            Debug.LogError("Select a valid Port");
+            PopUpMessageController.instance.WritePopUp("Select a valid Port");
             return;
         }
+        port = portDropdown.options[portDropdown.value].text;
         //instantiate the port
-        arduino = new SerialPort(portName.text, 19200);
+        arduino = new SerialPort(port, 19200);
         //open the port
         arduino.Open();
+        Debug.Log("connected to port " + port);
+            PopUpMessageController.instance.WritePopUp("connected to port " + port);        
     }
 
     public void SendMessageToArduino(string stringa)
@@ -42,6 +46,7 @@ public class ComunicationsController : MonoBehaviour
         if (arduino == null || !arduino.IsOpen)
         {
             Debug.LogWarning("Open the port");
+            PopUpMessageController.instance.WritePopUp("Open the port or select one");    
             return;
         }
         //write the message passed

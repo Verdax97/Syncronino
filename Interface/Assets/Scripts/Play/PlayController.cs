@@ -4,15 +4,26 @@ using UnityEngine;
 public class PlayController : MonoBehaviour
 {
     public Transform scroll;
+    private IEnumerator playCoroutine;
     public void Play()
     {
-        StartCoroutine(Coso(CreateList()));
+        if(playCoroutine != null)
+            StopCoroutine(playCoroutine);
+        playCoroutine = PlayCoroutine(CreateList());
+        StartCoroutine(playCoroutine);
     }
 
-    public IEnumerator Coso(ArrayList list)
+    public void Stop()
+    {
+        if(playCoroutine != null)
+            StopCoroutine(playCoroutine);
+        PopUpMessageController.instance.WritePopUp("Stopped");
+    }
+    //coroutine for play function
+    public IEnumerator PlayCoroutine(ArrayList list)
     {
         float timing = 0;
-        Debug.Log(SaverController.instance.SaveAnimationString(list));
+        Debug.Log(SaverController.instance.FormattAnimationString(list));
         foreach (Lista item in list)
         {
             yield return new WaitForSeconds(item.time - timing);
@@ -21,6 +32,7 @@ public class PlayController : MonoBehaviour
         }
     }
 
+    //method to override for different play tipes (es. play only divisor child)
     public virtual ArrayList CreateList()
     {
         ArrayList list = new ArrayList();
@@ -35,6 +47,7 @@ public class PlayController : MonoBehaviour
         return list;
     }
 
+    //add element ordered by timing
     public ArrayList AddInOrder(ArrayList main, ArrayList toAdd)
     {
         int added = 0;

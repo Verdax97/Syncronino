@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,6 +20,7 @@ public class TimeValuesControll : MonoBehaviour
     public bool single = false;
 
     public float fadeIntensity = 5;
+    public Keyframe keyframe = new Keyframe();
 
     public void ModifiedTiming()
     {
@@ -30,12 +32,11 @@ public class TimeValuesControll : MonoBehaviour
     {
     }
 
-    public virtual void SetValue(List<string> values)
+    public virtual void LoadValues(Keyframe keyframe)
     {
-        timingInput.text = values[0];
-        valueInput.text = values[1];
-        SetFade(int.Parse(values[values.Count - 1]));
-        ModifiedValue();
+        timingInput.text = keyframe.timing.ToString();
+        valueInput.text = keyframe.values[0].ToString();
+        SetFade(keyframe.fade);
     }
 
     public void ButtonPress()
@@ -86,6 +87,12 @@ public class TimeValuesControll : MonoBehaviour
         return null;
     }
 
+    public float GetTiming()
+    {
+        if (timingInput.text == "")
+            timingInput.text = "0";
+        return float.Parse(timingInput.text, CultureInfo.InvariantCulture);
+    }
     public void Delete()
     {
         Destroy(gameObject);
@@ -93,6 +100,8 @@ public class TimeValuesControll : MonoBehaviour
 
     public string FadeType()
     {
+        if(fadeDropdown == null)
+            return "n";
         switch (fadeDropdown.value)
         {
             case 0://none
@@ -109,12 +118,33 @@ public class TimeValuesControll : MonoBehaviour
     }
     public int FadeTypeValue()
     {
+        if(fadeDropdown == null)
+            return 0;
         return fadeDropdown.value;
     }
-
     public void SetFade(int value)
     {
         fadeDropdown.value = value;
+    }
+
+    public virtual List<int> GetCorrectValues()
+    {
+        List<int> temp = new List<int>();
+        temp.Add(int.Parse(valueInput.text));
+        return temp;
+    }
+    public virtual float GetDuration()
+    {
+        return 0f;
+    }
+    public Keyframe BuildKeyframe()
+    {
+        keyframe.timing = GetTiming();
+        keyframe.duration = GetDuration();
+        keyframe.fade = FadeTypeValue();
+        keyframe.values = GetCorrectValues();
+        keyframe.active = active;
+        return keyframe;
     }
 }
 

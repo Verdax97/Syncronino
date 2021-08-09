@@ -32,20 +32,25 @@ public class RGBTVC : TimeValuesControll
         };
         return a;
     }
-
-    public void ModifyIntesifies()
+    public override void LoadValues(Keyframe keyframe)
     {
-        fadeIntensity = float.Parse(fadeIntensityInput.text);
+        timingInput.text = keyframe.timing.ToString();
+        R.value = keyframe.values[0];
+        B.value = keyframe.values[1];
+        G.value = keyframe.values[2];
+        SetFade(keyframe.fade);
     }
 
-    public override void SetValue(List<string> values)
+    public override List<int> GetCorrectValues()
     {
-        timingInput.text = values[0];
-        R.value = int.Parse(values[1]);
-        G.value = int.Parse(values[2]);
-        B.value = int.Parse(values[3]);
-        ModifiedValue();
-        SetFade(int.Parse(values[values.Count - 1]));
-        ModifiedValue();
+        List<int> temp = new List<int>();
+        temp.Add((int)R.value);
+        temp.Add((int)G.value);
+        temp.Add((int)B.value);
+        return temp;
+    }
+    public override float GetDuration()
+    {
+        return 0;
     }
 }
