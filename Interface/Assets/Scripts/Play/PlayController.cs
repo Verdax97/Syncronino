@@ -12,7 +12,6 @@ public class PlayController : MonoBehaviour
         playCoroutine = PlayCoroutine(CreateList());
         StartCoroutine(playCoroutine);
     }
-
     public void Stop()
     {
         if(playCoroutine != null)
@@ -23,15 +22,13 @@ public class PlayController : MonoBehaviour
     public IEnumerator PlayCoroutine(ArrayList list)
     {
         float timing = 0;
-        Debug.Log(SaverController.instance.FormattAnimationString(list));
-        foreach (Lista item in list)
+        foreach (FadeKeyframe item in list)
         {
-            yield return new WaitForSeconds(item.time - timing);
-            ComunicationsController.instance.SendMessageToArduino(item.str);
-            timing = item.time;
+            yield return new WaitForSeconds(item.timing - timing);
+            ComunicationsController.instance.SendMessageToArduino(item);
+            timing = item.timing;
         }
     }
-
     //method to override for different play tipes (es. play only divisor child)
     public virtual ArrayList CreateList()
     {
@@ -55,15 +52,15 @@ public class PlayController : MonoBehaviour
         {
             if (added >= toAdd.Count)
                 return main;
-            if (((Lista)toAdd[added]).time < ((Lista)main[i]).time)
+            if (((FadeKeyframe)toAdd[added]).timing < ((FadeKeyframe)main[i]).timing)
             {
-                main.Insert(i, ((Lista)toAdd[added]));
+                main.Insert(i, ((FadeKeyframe)toAdd[added]));
                 added++;
             }
         }
         while (added < toAdd.Count)
         {
-            main.Add(((Lista)toAdd[added]));
+            main.Add(((FadeKeyframe)toAdd[added]));
             added++;
         }
         return main;

@@ -89,6 +89,8 @@ public class TimeValuesControll : MonoBehaviour
 
     public float GetTiming()
     {
+        if (timingInput == null)
+            return 0f;
         if (timingInput.text == "")
             timingInput.text = "0";
         return float.Parse(timingInput.text, CultureInfo.InvariantCulture);

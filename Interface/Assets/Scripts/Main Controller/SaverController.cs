@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using System.IO;
 using System.Text;
+using System.Linq;
 
 public class SaverController : MonoBehaviour
 {
@@ -30,7 +31,7 @@ public class SaverController : MonoBehaviour
         }
         System.IO.Directory.CreateDirectory(Application.dataPath + "/Animations/");
         System.IO.Directory.CreateDirectory(Application.dataPath + "/Animations/Actuators");
-        string path = Application.dataPath + "/Animations/" + fileName.text.Replace(' ', '_') + ".txt";
+        string path = Application.dataPath + "/Animations/" + fileName.text.Replace(' ', '_') + ".json";
         string path1 = Application.dataPath + "/Animations/Actuators/" + fileName.text.Replace(' ', '_') + "Actuators.json";
         
         File.WriteAllText(path, FormattAnimationString(GetComponent<PlayController>().CreateList()));
@@ -40,6 +41,7 @@ public class SaverController : MonoBehaviour
     public string SaveAnimation()
     {
         ActuatorList actuatorList = new ActuatorList();
+        JsonList jsonList = new JsonList();
         foreach (Transform actuator in scroll)
         {
             if (actuator.tag == "Actuator")
@@ -49,20 +51,11 @@ public class SaverController : MonoBehaviour
         }
         return JsonUtility.ToJson(actuatorList);
     }
-    public string FormattAnimationString(ArrayList lista)
+    public string FormattAnimationString(ArrayList list)
     {
-        string stringa = "";
-        float timing = -1;
-        foreach (Lista item in lista)
-        {
-            if (timing < item.time)
-            {
-                stringa += Constants.TIME_SHORT + item.time.ToString() + " ";
-                timing = item.time;
-            }    
-            stringa += item.str;
-        }
-        return stringa;
+        FadeKeyframeList jsonList = new FadeKeyframeList();
+        jsonList.keyframes = list.Cast<FadeKeyframe>().ToList<FadeKeyframe>();
+        return JsonUtility.ToJson(jsonList);
     }
     public Actuator SaveActuator(SingleElementPlay singleElementPlay)
     {
@@ -116,7 +109,6 @@ public class SaverController : MonoBehaviour
             
         }
     }
-
     public void LoadActuator(Actuator actuator)
     {
         //create new actuator

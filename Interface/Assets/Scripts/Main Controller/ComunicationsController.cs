@@ -39,18 +39,16 @@ public class ComunicationsController : MonoBehaviour
         Debug.Log("connected to port " + port);
             PopUpMessageController.instance.WritePopUp("connected to port " + port);        
     }
-
-    public void SendMessageToArduino(string stringa)
+    public void SendMessageToArduino(FadeKeyframe keyframe)
     {
-        //if port is not open do nothing
         if (arduino == null || !arduino.IsOpen)
         {
             Debug.LogWarning("Open the port");
             PopUpMessageController.instance.WritePopUp("Open the port or select one");    
             return;
         }
-        //write the message passed
-        arduino.Write(stringa);
+        string stringa = JsonUtility.ToJson(keyframe) + "\n";
+        arduino.WriteLine(stringa);
         if (debug)
             Debug.Log("stringa inviata: " + stringa);
     }

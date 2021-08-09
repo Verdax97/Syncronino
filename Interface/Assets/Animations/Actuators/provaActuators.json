@@ -1,1 +1,13 @@
-{}
+{
+    "keyframes": [
+        {
+            "active": true,
+            "timing": 0.0,
+            "duration": 1.0,
+            "fade": 0,
+            "values": [
+                370
+            ]
+        }
+    ]
+}

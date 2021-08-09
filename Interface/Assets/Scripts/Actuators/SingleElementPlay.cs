@@ -58,7 +58,6 @@ public class SingleElementPlay : MonoBehaviour
         }
         return list;
     }
-
     public ArrayList BuildFade(int index)
     {
         //create new list
@@ -66,50 +65,59 @@ public class SingleElementPlay : MonoBehaviour
         //get the TimeValuesControll
         TimeValuesControll TVC = scrollView.transform.GetChild(index).GetComponent<TimeValuesControll>();
         //add the keyframe value to the list
-        lista.Add(new Lista(BuildString(TVC.PassString()), Round(TVC.GetTiming())));
+        FadeKeyframe keyframe = new FadeKeyframe(TVC.BuildKeyframe());
+        lista.Add(BuildFadeKeyframe(keyframe));
         //exit if the are no next keyframe or there is no fade
         if (index == scrollView.transform.childCount - 1 || TVC.FadeType() == "n")
             return lista;
         //get the next TimeValuesControll
         TimeValuesControll nextTvc = scrollView.transform.GetChild(index+1).GetComponent<TimeValuesControll>();
-        //get the starting value
-        List<string> startValue = TVC.GetValue();
-        //get the ending value
-        List<string> endValue = nextTvc.GetValue();
-        //get the start time
-        float startTime = TVC.GetTiming();
-        //get the end time
-        float endTime = nextTvc.GetTiming();
+        Keyframe nextKeyframe = new FadeKeyframe(nextTvc.BuildKeyframe());
         //variable to wich assign the delta time
         float deltaTime = 1f / campionamento.value;
         //setting the timing variable
-        float timing = startTime;
+        float timing = keyframe.timing;
         //while there
-        while (timing < endTime)
+        while (timing < nextKeyframe.timing)
         {
             //add the delta time to the timing
             timing += deltaTime;
             //if the timing is higher than the end time break the loop
-            if (timing >= endTime)
+            if (timing >= nextKeyframe.timing)
                 break;
-            string str = "";
-            for (int i = 0; i < startValue.Count; i++)
+            FadeKeyframe fadeKeyframe = new FadeKeyframe(keyframe);
+            fadeKeyframe.values.Clear();
+            //cycle all values
+            for (int i = 0; i < keyframe.values.Count; i++)
             {
                 //calc the new value
-                int newVal = CalcFade(TVC.FadeType(), int.Parse(startValue[i], CultureInfo.InvariantCulture), int.Parse(endValue[i], CultureInfo.InvariantCulture), timing - startTime, endTime - startTime);
-                str += newVal.ToString() + " ";
+                int newVal = CalcFade(TVC.FadeType(), keyframe.values[i], nextKeyframe.values[i], timing - keyframe.timing, nextKeyframe.timing - keyframe.timing);
+                fadeKeyframe.values.Add(newVal);
             }
+            fadeKeyframe.timing = Round(timing);
             //add to the list
-            lista.Add(new Lista(BuildString(str), Round(timing)));
+            lista.Add(BuildFadeKeyframe(fadeKeyframe));
         }
         return lista;
+    }
+    FadeKeyframe BuildFadeKeyframe(FadeKeyframe keyframe)
+    {
+        keyframe.type = Type();
+        //pins
+        keyframe.pins.Clear();
+        keyframe.pins.Add(int.Parse(pin.text));
+        if(pin2.IsActive())
+            keyframe.pins.Add(int.Parse(pin2.text));
+        if(pin3.IsActive())
+            keyframe.pins.Add(int.Parse(pin3.text));
+        return keyframe;
     }
     int CalcFade(string type, int start, int end, float elapsed, float deltaT)
     {
         switch (type)
         {
             case "l"://linear
-                return (int)(start + (end - start) * elapsed/deltaT);
+                return Mathf.RoundToInt(start + (end - start) * elapsed/deltaT);
             case "e"://exponential
                 float k = ExpInterpolation(start, end, deltaT);
                 int pos = 1;
@@ -119,12 +127,11 @@ public class SingleElementPlay : MonoBehaviour
                 //Debug.Log(val);
                 return val;
             case "g"://logaritmic
-                return 2;
+                return (int)(start + (end - start) * elapsed/deltaT);
             default://none
                 return 0;
         }
     }
-
     float ExpInterpolation(int start, int end, float deltaT)
     {
         float a = Mathf.Abs(end - start);
@@ -133,17 +140,14 @@ public class SingleElementPlay : MonoBehaviour
         float val =  l/ deltaT;
         return val;
     }
-
     public void PlaySingle()
     {
         //send message thru script
-        ComunicationsController.instance.SendMessageToArduino(BuildString(singleValue.PassString()));
+        ComunicationsController.instance.SendMessageToArduino(BuildFadeKeyframe(new FadeKeyframe(singleValue.BuildKeyframe())));
     }
-
     public string Type()
     {
         string str = "";
-
         //if you need to add new elements modify the switch statement
         switch (dropdown.captionText.text)
         {
@@ -170,17 +174,6 @@ public class SingleElementPlay : MonoBehaviour
         }
         return str;
     }
-
-    public string BuildString(string val)
-    {
-        //set initial string to select
-        string str = Constants.SELECT_SHORT;
-        str += Type();
-        //add pin and value
-        str += GetPin();
-        return str + " " + val;
-    }
-
     //called when modified the max value input
     public void ChangeMaxValue()
     {
@@ -196,12 +189,10 @@ public class SingleElementPlay : MonoBehaviour
         }
         singleValue.ModifyMaxValue(max);
     }
-
     public void ButtonPressAddKeyframe()
     {
         AddKeyframe();
     }
-
     public TimeValuesControll AddKeyframe()
     {
         GameObject toInstantiate;
@@ -227,7 +218,6 @@ public class SingleElementPlay : MonoBehaviour
         return tvc;
 
     }
-
     public void LoadKeyframe(Keyframe keyframe)
     {
         TimeValuesControll tvc = AddKeyframe();
@@ -235,7 +225,6 @@ public class SingleElementPlay : MonoBehaviour
         if (keyframe.active)
             tvc.ButtonPress();
     }
-
     public void ChangeType()
     {
         pin2.gameObject.SetActive(false);
@@ -287,7 +276,6 @@ public class SingleElementPlay : MonoBehaviour
                 return;
         }
     }
-
     public virtual void SetPin(List<int> pins)
     {
         pin.text = pins[0].ToString();
@@ -296,7 +284,6 @@ public class SingleElementPlay : MonoBehaviour
         if (pins.Count >= 3)
             pin3.text = pins[2].ToString();
     }
-
     public void SetType(string type)
     {
         switch (type)
@@ -334,7 +321,6 @@ public class SingleElementPlay : MonoBehaviour
         }
         ChangeType();
     }
-
     public void ControlTiming()
     {
         for (int i = 1; i < scrollView.transform.childCount; i++)
@@ -355,21 +341,7 @@ public class SingleElementPlay : MonoBehaviour
             }
         }
     }
-    public void ModifiedCampionamento()
-    {
-        campionamentoText.text = campionamento.value.ToString();
-    }
-
     //get pins as string separated by spaces
-    public string GetPin()
-    {
-        string str = pin.text;
-        if (pin2.gameObject.activeSelf)
-            str += " " + pin2.text;
-        if (pin3.gameObject.activeSelf)
-            str += " " + pin3.text;
-        return str;
-    }
     public Actuator BuildActuator()
     {
         Actuator actuator = new Actuator();

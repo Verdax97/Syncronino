@@ -25,6 +25,6 @@ This is a simple college project used to create simple animation and coordinate 
 ## Features
 * Timeline for each actuator with the possibility to choose the fade type between each keyframe and the rate at wich the fade is applicated.
 * Divisor that let's you play at the same time all the actuators animation until it finds another divisor or there are no more actuators.
-* Save/Load animations.
+* Save/Load animations to json files.
 ## To Do
 * Add more support for more actuator.

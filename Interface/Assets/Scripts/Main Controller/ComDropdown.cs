@@ -13,6 +13,7 @@ public class ComDropdown : MonoBehaviour
     public void UpdateComList()
     {
         dropdown.ClearOptions();
+        ports = SerialPort.GetPortNames();
         dropdown.AddOptions(new List<string> (ports));
     }
 }
