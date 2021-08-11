@@ -39,9 +39,11 @@
      <Compile Include="Assets\Scripts\Play\PlayControllerActuator.cs" />
      <Compile Include="Assets\Scripts\Lista.cs" />
      <Compile Include="Assets\Scripts\MoveElementController.cs" />
+     <Compile Include="Assets\Scripts\Actuators\JsonList.cs" />
      <Compile Include="Assets\Scripts\Main Controller\ComunicationsController.cs" />
      <Compile Include="Assets\Scripts\HelpScript.cs" />
      <Compile Include="Assets\Scripts\TimeValueControl\TimeValuesControll.cs" />
+     <Compile Include="Assets\Scripts\Actuators\FadeKeyframe.cs" />
      <Compile Include="Assets\Scripts\Main Controller\ComDropdown.cs" />
      <Compile Include="Assets\Scripts\TimeValueControl\RGBTVC.cs" />
      <Compile Include="Assets\Scripts\Actuators\Keyframe.cs" />
@@ -59,8 +61,6 @@
      <Compile Include="Assets\Scripts\Main Controller\SectionController.cs" />
      <Compile Include="Assets\Scripts\Main Controller\PopUpMessageController.cs" />
      <Compile Include="Assets\Scripts\TimeValueControl\SingleValueTVC.cs" />
-     <Compile Include="Assets\Scripts\Actuators\FadeKeyframe.cs" />
-     <Compile Include="Assets\Scripts\Actuators\JsonList.cs" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap.shader" />

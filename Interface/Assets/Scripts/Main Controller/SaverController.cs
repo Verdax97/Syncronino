@@ -34,7 +34,7 @@ public class SaverController : MonoBehaviour
         string path = Application.dataPath + "/Animations/" + fileName.text.Replace(' ', '_') + ".json";
         string path1 = Application.dataPath + "/Animations/Actuators/" + fileName.text.Replace(' ', '_') + "Actuators.json";
         
-        File.WriteAllText(path, FormattAnimationString(GetComponent<PlayController>().CreateList()));
+        File.WriteAllText(path, FormattAnimationJson(GetComponent<PlayController>().CreateList()));
         File.WriteAllText(path1, SaveAnimation());
         PopUpMessageController.instance.WritePopUp("Saved file name: " + fileName.text); 
     }
@@ -51,7 +51,7 @@ public class SaverController : MonoBehaviour
         }
         return JsonUtility.ToJson(actuatorList);
     }
-    public string FormattAnimationString(ArrayList list)
+    public string FormattAnimationJson(ArrayList list)
     {
         FadeKeyframeList jsonList = new FadeKeyframeList();
         jsonList.keyframes = list.Cast<FadeKeyframe>().ToList<FadeKeyframe>();

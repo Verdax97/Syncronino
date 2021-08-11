@@ -5,7 +5,7 @@ using System;
 [Serializable]
 public class FadeKeyframe : Keyframe
 {
-    public string type;
+    public char type;
     public List<int> pins = new List<int>();
     public FadeKeyframe(Keyframe keyframe)
     {

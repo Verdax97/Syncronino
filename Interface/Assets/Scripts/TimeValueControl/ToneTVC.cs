@@ -15,32 +15,11 @@ public class ToneTVC : TimeValuesControll
             return;
         LoadTones();
     }
-
     private void LoadTones()
     {
         foreach (Tone tone in tones.tones)
             notesDropdown.AddOptions(new List<string>() { tone.name });
     }
-
-    public override string PassString()
-    {
-        int index = notesDropdown.value;
-        int temp = int.Parse(valueInput.text, CultureInfo.InvariantCulture);
-        return temp.ToString() + " " + ((Tone)tones.tones[index]).value.ToString() + " ";
-    }
-
-    public override List<string> GetValue()
-    {
-        List<string> a = new List<string>();
-        if(valueInput.text != "")
-        {
-            a.Add(valueInput.text + " " + notesDropdown.captionText.text);
-            return a;
-        }
-        a.Add("10 " + notesDropdown.captionText.text);
-        return a;
-    }
-
     public override void LoadValues(Keyframe keyframe)
     {
         timingInput.text = keyframe.timing.ToString();
@@ -58,8 +37,7 @@ public class ToneTVC : TimeValuesControll
         }
         setup = true;
     }
-
-    public override List<int> GetCorrectValues()
+    public override List<int> GetValues()
     {
         List<int> temp = new List<int>();
         foreach(Tone tone in tones.tones)

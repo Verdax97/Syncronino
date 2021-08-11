@@ -6,7 +6,6 @@ using UnityEngine.UI;
 using System.Globalization;
 public class SingleElementPlay : MonoBehaviour
 {
-
     public Color digital;
     public Color analog;
     public Color servo;
@@ -19,26 +18,17 @@ public class SingleElementPlay : MonoBehaviour
     public TMP_InputField pin3;
     public TMP_InputField maxValue;
     public TMP_InputField actuatorName;
-
     public GameObject singleValueParent;
-
     public GameObject singleDefaultPrefab;
     public GameObject singleTonePrefab;
     public GameObject singleRGBPrefab;
-
     public TimeValuesControll singleValue;
-
     public GameObject defaultKeyframe;
     public GameObject toneKeyframe;
     public GameObject RGBKeyframe;
 
     public Slider campionamento;
-    public TMP_Text campionamentoText;
-    
-    float Round(float val)
-    {
-        return (int)(val * 100.0f) / 100.0f;
-    }
+    //public TMP_Text campionamentoText;
     public ArrayList BuildAllFade()
     {
         if ((pin.text == ""))
@@ -94,7 +84,7 @@ public class SingleElementPlay : MonoBehaviour
                 int newVal = CalcFade(TVC.FadeType(), keyframe.values[i], nextKeyframe.values[i], timing - keyframe.timing, nextKeyframe.timing - keyframe.timing);
                 fadeKeyframe.values.Add(newVal);
             }
-            fadeKeyframe.timing = Round(timing);
+            fadeKeyframe.timing = (float)Mathf.RoundToInt(timing*100)/100;
             //add to the list
             lista.Add(BuildFadeKeyframe(fadeKeyframe));
         }
@@ -102,7 +92,7 @@ public class SingleElementPlay : MonoBehaviour
     }
     FadeKeyframe BuildFadeKeyframe(FadeKeyframe keyframe)
     {
-        keyframe.type = Type();
+        keyframe.type = Type()[0];
         //pins
         keyframe.pins.Clear();
         keyframe.pins.Add(int.Parse(pin.text));

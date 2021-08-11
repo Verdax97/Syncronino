@@ -1,40 +1,39 @@
 #include <ArduinoJson.h>
+#include <Servo.h>
+//define the pin used for debug
+#define debugPin 2
+int debug = 1;
+//saved animation
+String anim;
+//index for the saved animation
+int index = 0;
+//define lenght of the servo array
+#define maxNServo 12
+//the servo array 
+Servo servos[maxNServo];
+//the array with the pin value of the servos
+int servosPin[maxNServo];
+//number of servos actually used
+int nServos = 0;
+//variables for controlling the animation flow
+unsigned long elapsedTime = 0, nextTiming = 0, delta = 0, last = 0;
 
 void setup()
 {
     // Initialize serial port
     Serial.begin(19200);
-    while (!Serial)
-        continue;
-    // Allocate the JSON document
-    //
-    // Inside the brackets, 200 is the capacity of the memory pool in bytes.
-    // Don't forget to change this value to match your JSON document.
-    // Use arduinojson.org/v6/assistant to compute the capacity.
-    //StaticJsonDocument<400> doc;
-
-    // StaticJsonDocument<N> allocates memory on the stack, it can be
-    // replaced by DynamicJsonDocument which allocates in the heap.
-    //
-    // DynamicJsonDocument doc(200);
-
-    // JSON input string.
-    //
-    // Using a char[], as shown here, enables the "zero-copy" mode. This mode uses
-    // the minimal amount of memory because the JsonDocument stores pointers to
-    // the input buffer.
-    // If you use another type of input, ArduinoJson must copy the strings from
-    // the input to the JsonDocument, so you need to increase the capacity of the
-    // JsonDocument.
 }
-
 void loop()
 {
-  StaticJsonDocument<400> doc;
-    String json;
     while (Serial.available() <= 0)
-            ;
-    json = Serial.readStringUntil('\n');
+        ;
+    playAnimation();
+}
+
+void playAnimation()
+{
+    StaticJsonDocument<200> doc;
+    String json = Serial.readStringUntil('\n');
     
     // Deserialize the JSON document
     DeserializationError error = deserializeJson(doc, json);
@@ -44,21 +43,92 @@ void loop()
     {
         Serial.print(F("deserializeJson() failed: "));
         Serial.println(error.f_str());
-        digitalWrite(12, 1);
         return;
-        
     }
     
-    digitalWrite(12, 0);
-    // Fetch values.
-    //
-    // Most of the time, you can rely on the implicit casts.
-    // In other case, you can do doc["time"].as<long>();
-    //const char *sensor = doc["keyframes"][0];
-    float timing = doc["timing"];
-    int val = doc["values"][0];
-    digitalWrite(13, val);
-    // Print values.
-    Serial.println(timing);
-    Serial.println(val);
+        Serial.println(doc["pins"][0].as<int>());
+    
+    switch (char(doc["type"].as<char>()))
+    {
+    case 'a':
+        //modify analog actuator
+        
+        changeAnalog(doc["pins"][0], doc["values"][0]);
+        break;
+    case 'b':
+        //modify buzzer
+        changeBuzzer(doc["pins"][0], doc["values"][0], doc["duration"]);
+        break;
+    case 'd':
+        //modify digital actuator
+        changeDigital(doc["pins"][0], doc["values"][0]);
+        break;
+    case 'l':
+        //modify rgb actuator
+        changeRGB(doc["pins"].as<JsonArray>(), doc["values"].as<JsonArray>());
+        break;
+    case 's':
+        //modify servo
+        changeServo(doc["pins"][0], doc["values"][0]);
+        break;
+    default:
+        //default
+        Serial.println("default");
+        break;
+    }
+}
+
+int searchServo(int pin)
+{
+    //search for the servo in the array
+    for (int i = 0; i < nServos; i++)
+        if (servosPin[i] == pin)
+            //servo founded
+            return i;
+    //servo not found so 
+    if (nServos == maxNServo)
+        return -1;
+    //servo not found so add it to the array
+    servosPin[nServos] = pin;
+    servos[nServos].attach(pin);
+    return nServos++;
+}
+
+void changeServo(int pin, int value)
+{
+    //search the servo index in the array
+    int index = searchServo(pin);
+    if (index < 0)
+        //do nothing cause is out of the array
+        return;
+    //modify servo value
+    servos[index].write(value);
+}
+
+void changeAnalog(int pin, int value)
+{
+    pinMode(pin, OUTPUT);
+    analogWrite(pin, value);
+}
+
+void changeDigital(int pin, int value)
+{
+    pinMode(pin, OUTPUT);
+    digitalWrite(pin, value);
+}
+
+void changeBuzzer(int pin, int value, float duration)
+{
+    pinMode(pin, OUTPUT);
+    tone(pin, value, duration);
+    noTone(pin);
+}
+
+void changeRGB(JsonArray pins, JsonArray values)
+{
+    for(int i = 0; i < 3; i++)
+    {
+        pinMode(pins[i].as<int>(), OUTPUT);
+        analogWrite(pins[i].as<int>(), values[i].as<int>());
+    }
 }

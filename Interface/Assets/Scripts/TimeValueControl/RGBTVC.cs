@@ -11,27 +11,6 @@ public class RGBTVC : TimeValuesControll
     public Slider B;
     public Image image;
     public TMP_InputField fadeIntensityInput;
-
-    public override void ModifiedValue()
-    {
-        image.color = new Color(R.value/255, G.value/255, B.value/255);
-    }
-
-    public override string PassString()
-    {
-        return R.value.ToString() + " " + G.value.ToString() + " " + B.value.ToString() + " ";
-    }
-
-    public override List<string> GetValue()
-    {
-        List<string> a = new List<string>
-        {
-            R.value.ToString(),
-            G.value.ToString(),
-            B.value.ToString()
-        };
-        return a;
-    }
     public override void LoadValues(Keyframe keyframe)
     {
         timingInput.text = keyframe.timing.ToString();
@@ -41,7 +20,7 @@ public class RGBTVC : TimeValuesControll
         SetFade(keyframe.fade);
     }
 
-    public override List<int> GetCorrectValues()
+    public override List<int> GetValues()
     {
         List<int> temp = new List<int>();
         temp.Add((int)R.value);

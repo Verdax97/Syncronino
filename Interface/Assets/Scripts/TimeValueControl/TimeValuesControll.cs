@@ -26,19 +26,12 @@ public class TimeValuesControll : MonoBehaviour
     {
         comunications.ControlTiming();
     }
-
-    //update the slider value
-    public virtual void ModifiedValue()
-    {
-    }
-
     public virtual void LoadValues(Keyframe keyframe)
     {
         timingInput.text = keyframe.timing.ToString();
         valueInput.text = keyframe.values[0].ToString();
         SetFade(keyframe.fade);
     }
-
     public void ButtonPress()
     {
         if (!single)
@@ -48,7 +41,6 @@ public class TimeValuesControll : MonoBehaviour
         }
         comunications.PlaySingle();
     }
-
     //toggle the button color and active
     private void ToggleButton()
     {
@@ -72,21 +64,9 @@ public class TimeValuesControll : MonoBehaviour
             button.colors = colors;
         }
     }
-
-    public virtual string PassString()
-    {
-        return " ";
-    }
-
     public virtual void ModifyMaxValue(int maxValue)
     {
     }
-
-    public virtual List<string> GetValue()
-    {
-        return null;
-    }
-
     public float GetTiming()
     {
         if (timingInput == null)
@@ -99,7 +79,6 @@ public class TimeValuesControll : MonoBehaviour
     {
         Destroy(gameObject);
     }
-
     public string FadeType()
     {
         if(fadeDropdown == null)
@@ -128,8 +107,7 @@ public class TimeValuesControll : MonoBehaviour
     {
         fadeDropdown.value = value;
     }
-
-    public virtual List<int> GetCorrectValues()
+    public virtual List<int> GetValues()
     {
         List<int> temp = new List<int>();
         temp.Add(int.Parse(valueInput.text));
@@ -144,7 +122,7 @@ public class TimeValuesControll : MonoBehaviour
         keyframe.timing = GetTiming();
         keyframe.duration = GetDuration();
         keyframe.fade = FadeTypeValue();
-        keyframe.values = GetCorrectValues();
+        keyframe.values = GetValues();
         keyframe.active = active;
         return keyframe;
     }
