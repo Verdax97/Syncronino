@@ -3,7 +3,7 @@ using UnityEngine;
 using TMPro;
 public class PlayControllerDivisor : PlayController
 {
-    public TMP_InputField DivisorName;
+    public TMP_InputField divisorName;
     public override ArrayList CreateList()
     {
         scroll = transform.parent;
@@ -20,5 +20,16 @@ public class PlayControllerDivisor : PlayController
                 return list;
         }
         return list;
+    }
+    public Actuator BuildDivisor()
+    {
+        Actuator divisor = new Actuator();
+        divisor.name = divisorName.text;
+        divisor.typeComponent = Constants.Divisor;
+        return divisor;
+    }
+    public void LoadDivisor(Actuator divisor)
+    {
+        divisorName.text = divisor.name;
     }
 }

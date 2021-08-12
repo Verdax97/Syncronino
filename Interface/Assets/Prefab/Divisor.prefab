@@ -803,7 +803,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.16862746, b: 1, a: 0.62352943}
+  m_Color: {r: 0.17254902, g: 0.24313727, b: 0.3137255, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -865,7 +865,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scroll: {fileID: 0}
-  DivisorName: {fileID: 6933385405870120572}
+  divisorName: {fileID: 6933385405870120572}
+  divisor:
+    name: 
+    typeComponent: Actuator
+    typeActuator: d
+    pins: 
+    maxValue: 1
+    rate: 10
+    keyframes: []
 --- !u!1 &6390988544857652053
 GameObject:
   m_ObjectHideFlags: 0
@@ -1535,6 +1543,23 @@ PrefabInstance:
     - target: {fileID: 3102051513065357717, guid: 00fbd253144da8e4b9010fcec8131a1b, type: 3}
       propertyPath: m_Name
       value: Help Button
+      objectReference: {fileID: 0}
+    - target: {fileID: 3102051513065357718, guid: 00fbd253144da8e4b9010fcec8131a1b, type: 3}
+      propertyPath: m_Color.r
+      value: 0.8516483
+      objectReference: {fileID: 0}
+    - target: {fileID: 3102051513065357718, guid: 00fbd253144da8e4b9010fcec8131a1b, type: 3}
+      propertyPath: m_Color.g
+      value: 0.489011
+      objectReference: {fileID: 0}
+    - target: {fileID: 3102051513065357718, guid: 00fbd253144da8e4b9010fcec8131a1b, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3102051513065357719, guid: 00fbd253144da8e4b9010fcec8131a1b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: The divisor play only plays the  animations below until the end or until
+        another divisor
       objectReference: {fileID: 0}
     - target: {fileID: 9210760749853861467, guid: 00fbd253144da8e4b9010fcec8131a1b, type: 3}
       propertyPath: m_text

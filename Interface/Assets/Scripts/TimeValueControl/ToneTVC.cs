@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using TMPro;
 
 public class ToneTVC : TimeValuesControll
 {
-    Tones tones = null;
+    Tones tones = new Tones();
 
     private bool setup = false;
 
@@ -14,42 +15,43 @@ public class ToneTVC : TimeValuesControll
             return;
         LoadTones();
     }
-
     private void LoadTones()
     {
-        tones = new Tones();
         foreach (Tone tone in tones.tones)
             notesDropdown.AddOptions(new List<string>() { tone.name });
     }
-
-    public override string PassString()
+    public override void LoadValues(Keyframe keyframe)
     {
-        int index = notesDropdown.value;
-        int temp = int.Parse(valueInput.text);
-        return temp.ToString() + " " + ((Tone)tones.tones[index]).value.ToString() + " ";
-    }
-
-    public override List<string> GetValue()
-    {
-        List<string> a = new List<string>
-        {
-            valueInput.text + " " + notesDropdown.captionText.text
-        };
-        return a;
-    }
-
-    public override void SetValue(List<string> values)
-    {
-        timingInput.text = values[0];
-        valueInput.text = values[1];
+        timingInput.text = keyframe.timing.ToString();
+        valueInput.text = keyframe.duration.ToString();
         LoadTones();
-        for (int i = 0; i < notesDropdown.options.Count; i++)
-            if (values[2] == notesDropdown.options[i].text)
+        for(int i = 0; i < tones.tones.Count; i++)
+        {
+            Tone tone = (Tone)tones.tones[i];
+            if (tone.value == keyframe.values[0])
             {
+                notesDropdown.captionText.text = tone.name;
                 notesDropdown.value = i;
-                notesDropdown.captionText.text = values[2];
                 break;
             }
+        }
         setup = true;
+    }
+    public override List<int> GetValues()
+    {
+        List<int> temp = new List<int>();
+        foreach(Tone tone in tones.tones)
+        {
+            if(tone.name == notesDropdown.captionText.text)
+            {
+                temp.Add(tone.value);
+                return temp;
+            }
+        }
+        return temp;
+    }
+    public override float GetDuration()
+    {
+        return int.Parse(valueInput.text);
     }
 }

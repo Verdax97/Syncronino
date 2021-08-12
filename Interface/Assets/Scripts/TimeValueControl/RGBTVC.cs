@@ -11,41 +11,25 @@ public class RGBTVC : TimeValuesControll
     public Slider B;
     public Image image;
     public TMP_InputField fadeIntensityInput;
-
-    public override void ModifiedValue()
+    public override void LoadValues(Keyframe keyframe)
     {
-        image.color = new Color(R.value/255, G.value/255, B.value/255);
+        timingInput.text = keyframe.timing.ToString();
+        R.value = keyframe.values[0];
+        B.value = keyframe.values[1];
+        G.value = keyframe.values[2];
+        SetFade(keyframe.fade);
     }
 
-    public override string PassString()
+    public override List<int> GetValues()
     {
-        return R.value.ToString() + " " + G.value.ToString() + " " + B.value.ToString() + " ";
+        List<int> temp = new List<int>();
+        temp.Add((int)R.value);
+        temp.Add((int)G.value);
+        temp.Add((int)B.value);
+        return temp;
     }
-
-    public override List<string> GetValue()
+    public override float GetDuration()
     {
-        List<string> a = new List<string>
-        {
-            R.value.ToString(),
-            G.value.ToString(),
-            B.value.ToString()
-        };
-        return a;
-    }
-
-    public void ModifyIntesifies()
-    {
-        fadeIntensity = float.Parse(fadeIntensityInput.text);
-    }
-
-    public override void SetValue(List<string> values)
-    {
-        timingInput.text = values[0];
-        R.value = int.Parse(values[1]);
-        G.value = int.Parse(values[2]);
-        B.value = int.Parse(values[3]);
-        ModifiedValue();
-        SetFade(int.Parse(values[values.Count - 1]));
-        ModifiedValue();
+        return 0;
     }
 }

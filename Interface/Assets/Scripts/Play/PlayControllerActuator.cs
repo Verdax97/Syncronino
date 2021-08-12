@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayControllerActuator : PlayController
 {
+    //add only all actuator's keyframe
     public override ArrayList CreateList()
     {
         return GetComponent<SingleElementPlay>().BuildAllFade();

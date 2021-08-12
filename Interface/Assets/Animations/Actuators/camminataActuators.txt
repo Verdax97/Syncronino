@@ -1,4 +1,0 @@
-Divisor terza
-Actuator ext s 41 150 0 110 1 0.3 150 1 0.55 110 0 
-Actuator mid s 40 175 0 125 1 0.3 160 0 0.55 125 0 
-Actuator int s 39 170 0 140 1 0.5 50 0 0.6 50 2 1 140 0 

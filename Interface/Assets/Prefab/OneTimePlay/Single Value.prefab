@@ -124,23 +124,23 @@ MonoBehaviour:
   m_VerticalScrollbarEventHandler: {fileID: 0}
   m_LayoutGroup: {fileID: 0}
   m_ScrollSensitivity: 1
-  m_ContentType: 0
+  m_ContentType: 2
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 0
+  m_KeyboardType: 4
   m_LineType: 0
   m_HideMobileInput: 0
   m_HideSoftKeyboard: 0
-  m_CharacterValidation: 0
+  m_CharacterValidation: 2
   m_RegexValue: 
   m_GlobalPointSize: 14
   m_CharacterLimit: 0
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3755290346491976183}
-        m_TargetAssemblyTypeName: SingleValueTVC, Assembly-CSharp
-        m_MethodName: ModifiedValue
+      - m_Target: {fileID: 7378518545288656278}
+        m_TargetAssemblyTypeName: SliderTextValue, Assembly-CSharp
+        m_MethodName: ModifiedInputField
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -666,6 +666,7 @@ GameObject:
   - component: {fileID: 4915567876961758843}
   - component: {fileID: 4915567876961758844}
   - component: {fileID: 3755290346491976183}
+  - component: {fileID: 7378518545288656278}
   m_Layer: 5
   m_Name: Single Value
   m_TagString: Untagged
@@ -749,9 +750,26 @@ MonoBehaviour:
   timingInput: {fileID: 0}
   valueInput: {fileID: 8203544269373283018}
   fadePanel: {fileID: 0}
+  fadeDropdown: {fileID: 0}
   comunications: {fileID: 0}
   active: 0
   single: 1
+  fadeIntensity: 5
+  slider: {fileID: 4915567877666914631}
+  fadeIntensityInput: {fileID: 0}
+--- !u!114 &7378518545288656278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4915567876961758846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36f7b90799f7cf743aff473d05c38cf2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputField: {fileID: 8203544269373283018}
   slider: {fileID: 4915567877666914631}
 --- !u!1 &4915567877212920002
 GameObject:
@@ -1048,8 +1066,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3755290346491976183}
-        m_TargetAssemblyTypeName: SingleValueTVC, Assembly-CSharp
+      - m_Target: {fileID: 7378518545288656278}
+        m_TargetAssemblyTypeName: SliderTextValue, Assembly-CSharp
         m_MethodName: ModifiedSlider
         m_Mode: 1
         m_Arguments:
@@ -1702,11 +1720,11 @@ MonoBehaviour:
   m_fontSizeBase: 14
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 10
+  m_fontSizeMin: 1
   m_fontSizeMax: 72
   m_fontStyle: 2
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -1856,11 +1874,11 @@ MonoBehaviour:
   m_fontSizeBase: 14
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 10
+  m_fontSizeMin: 1
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0

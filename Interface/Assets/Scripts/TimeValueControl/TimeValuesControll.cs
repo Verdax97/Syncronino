@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,25 +20,18 @@ public class TimeValuesControll : MonoBehaviour
     public bool single = false;
 
     public float fadeIntensity = 5;
+    public Keyframe keyframe = new Keyframe();
 
     public void ModifiedTiming()
     {
         comunications.ControlTiming();
     }
-
-    //update the slider value
-    public virtual void ModifiedValue()
+    public virtual void LoadValues(Keyframe keyframe)
     {
+        timingInput.text = keyframe.timing.ToString();
+        valueInput.text = keyframe.values[0].ToString();
+        SetFade(keyframe.fade);
     }
-
-    public virtual void SetValue(List<string> values)
-    {
-        timingInput.text = values[0];
-        valueInput.text = values[1];
-        SetFade(int.Parse(values[values.Count - 1]));
-        ModifiedValue();
-    }
-
     public void ButtonPress()
     {
         if (!single)
@@ -47,7 +41,6 @@ public class TimeValuesControll : MonoBehaviour
         }
         comunications.PlaySingle();
     }
-
     //toggle the button color and active
     private void ToggleButton()
     {
@@ -71,28 +64,25 @@ public class TimeValuesControll : MonoBehaviour
             button.colors = colors;
         }
     }
-
-    public virtual string PassString()
-    {
-        return " ";
-    }
-
     public virtual void ModifyMaxValue(int maxValue)
     {
     }
-
-    public virtual List<string> GetValue()
+    public float GetTiming()
     {
-        return null;
+        if (timingInput == null)
+            return 0f;
+        if (timingInput.text == "")
+            timingInput.text = "0";
+        return float.Parse(timingInput.text, CultureInfo.InvariantCulture);
     }
-
     public void Delete()
     {
         Destroy(gameObject);
     }
-
     public string FadeType()
     {
+        if(fadeDropdown == null)
+            return "n";
         switch (fadeDropdown.value)
         {
             case 0://none
@@ -109,12 +99,32 @@ public class TimeValuesControll : MonoBehaviour
     }
     public int FadeTypeValue()
     {
+        if(fadeDropdown == null)
+            return 0;
         return fadeDropdown.value;
     }
-
     public void SetFade(int value)
     {
         fadeDropdown.value = value;
+    }
+    public virtual List<int> GetValues()
+    {
+        List<int> temp = new List<int>();
+        temp.Add(int.Parse(valueInput.text));
+        return temp;
+    }
+    public virtual float GetDuration()
+    {
+        return 0f;
+    }
+    public Keyframe BuildKeyframe()
+    {
+        keyframe.timing = GetTiming();
+        keyframe.duration = GetDuration();
+        keyframe.fade = FadeTypeValue();
+        keyframe.values = GetValues();
+        keyframe.active = active;
+        return keyframe;
     }
 }
 
