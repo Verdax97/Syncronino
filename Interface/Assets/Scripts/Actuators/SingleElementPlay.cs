@@ -181,7 +181,12 @@ public class SingleElementPlay : MonoBehaviour
     }
     public void ButtonPressAddKeyframe()
     {
-        AddKeyframe();
+        TimeValuesControll tvc = AddKeyframe();
+        if(scrollView.transform.childCount == 1)
+            return;
+        TimeValuesControll precTvc = scrollView.transform.GetChild(scrollView.transform.childCount - 2).GetComponent<TimeValuesControll>();
+        float newTiming = precTvc.GetTiming() + 1;
+        tvc.timingInput.text = newTiming.ToString();
     }
     public TimeValuesControll AddKeyframe()
     {
