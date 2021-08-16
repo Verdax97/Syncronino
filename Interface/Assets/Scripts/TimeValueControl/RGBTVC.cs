@@ -19,7 +19,12 @@ public class RGBTVC : TimeValuesControll
         G.value = keyframe.values[2];
         SetFade(keyframe.fade);
     }
-
+    public override void ModifyMaxValue(int maxValue)
+    {
+        R.maxValue = maxValue;
+        G.maxValue = maxValue;
+        B.maxValue= maxValue;
+    }
     public override List<int> GetValues()
     {
         List<int> temp = new List<int>();
@@ -31,5 +36,9 @@ public class RGBTVC : TimeValuesControll
     public override float GetDuration()
     {
         return 0;
+    }
+    public void OnChangeValue()
+    {
+        image.color = new Color(R.value/R.maxValue, G.value/G.maxValue, B.value/B.maxValue);
     }
 }

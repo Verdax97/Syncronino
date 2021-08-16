@@ -897,7 +897,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 6328895478538121134}
         m_TargetAssemblyTypeName: RGBTVC, Assembly-CSharp
-        m_MethodName: ModifiedValue
+        m_MethodName: OnChangeValue
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1779,7 +1779,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 6328895478538121134}
         m_TargetAssemblyTypeName: RGBTVC, Assembly-CSharp
-        m_MethodName: ModifiedValue
+        m_MethodName: OnChangeValue
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2367,7 +2367,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 6328895478538121134}
         m_TargetAssemblyTypeName: RGBTVC, Assembly-CSharp
-        m_MethodName: ModifiedValue
+        m_MethodName: OnChangeValue
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3305,6 +3305,12 @@ MonoBehaviour:
   active: 0
   single: 1
   fadeIntensity: 5
+  keyframe:
+    active: 0
+    timing: 0
+    duration: 0
+    fade: 0
+    values: 
   R: {fileID: 312771021279971754}
   G: {fileID: 7497939843156531096}
   B: {fileID: 2448596324496574129}
