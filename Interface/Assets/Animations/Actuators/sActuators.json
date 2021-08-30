@@ -1,1 +1,0 @@
-{"actuators":[{"name":"a","typeComponent":"Actuator","typeActuator":"d","pins":[12],"maxValue":1,"rate":15,"keyframes":[{"active":true,"timing":0.0,"duration":0.0,"fade":1,"values":[0]},{"active":true,"timing":1.0,"duration":0.0,"fade":0,"values":[1]},{"active":true,"timing":1.5,"duration":0.0,"fade":0,"values":[0]}]}]}

@@ -106,8 +106,8 @@ public class SaverController : MonoBehaviour
             {
                 SectionController.instance.AddNewDivisor().LoadDivisor(actuator);
             }
-            
         }
+        //PopUpMessageController.instance.WritePopUp("Loaded file name: " + fileName.text); 
     }
     public void LoadActuator(Actuator actuator)
     {
