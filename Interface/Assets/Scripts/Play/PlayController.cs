@@ -4,23 +4,32 @@ using UnityEngine;
 public class PlayController : MonoBehaviour
 {
     public Transform scroll;
+    private IEnumerator playCoroutine;
     public void Play()
     {
-        StartCoroutine(Coso(CreateList()));
+        if(playCoroutine != null)
+            StopCoroutine(playCoroutine);
+        playCoroutine = PlayCoroutine(CreateList());
+        StartCoroutine(playCoroutine);
     }
-
-    public IEnumerator Coso(ArrayList list)
+    public void Stop()
+    {
+        if(playCoroutine != null)
+            StopCoroutine(playCoroutine);
+        PopUpMessageController.instance.WritePopUp("Stopped");
+    }
+    //coroutine for play function
+    public IEnumerator PlayCoroutine(ArrayList list)
     {
         float timing = 0;
-        Debug.Log(SaverController.instance.SaveAnimationString(list));
-        foreach (Lista item in list)
+        foreach (FadeKeyframe item in list)
         {
-            yield return new WaitForSeconds(item.time - timing);
-            ComunicationsController.instance.SendMessageToArduino(item.str);
-            timing = item.time;
+            yield return new WaitForSeconds(item.timing - timing);
+            ComunicationsController.instance.SendMessageToArduino(item);
+            timing = item.timing;
         }
     }
-
+    //method to override for different play tipes (es. play only divisor child)
     public virtual ArrayList CreateList()
     {
         ArrayList list = new ArrayList();
@@ -35,6 +44,7 @@ public class PlayController : MonoBehaviour
         return list;
     }
 
+    //add element ordered by timing
     public ArrayList AddInOrder(ArrayList main, ArrayList toAdd)
     {
         int added = 0;
@@ -42,15 +52,15 @@ public class PlayController : MonoBehaviour
         {
             if (added >= toAdd.Count)
                 return main;
-            if (((Lista)toAdd[added]).time < ((Lista)main[i]).time)
+            if (((FadeKeyframe)toAdd[added]).timing < ((FadeKeyframe)main[i]).timing)
             {
-                main.Insert(i, ((Lista)toAdd[added]));
+                main.Insert(i, ((FadeKeyframe)toAdd[added]));
                 added++;
             }
         }
         while (added < toAdd.Count)
         {
-            main.Add(((Lista)toAdd[added]));
+            main.Add(((FadeKeyframe)toAdd[added]));
             added++;
         }
         return main;

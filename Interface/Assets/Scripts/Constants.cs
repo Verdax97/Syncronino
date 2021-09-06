@@ -16,4 +16,6 @@ public static class Constants
     public const string RGB_TYPE_SHORT = "l";
     public const string SELECT_SHORT = "s";
     public const string TIME_SHORT = "t";
+    public const string ACTUATOR = "Actuator";
+    public const string Divisor = "Divisor";
 }

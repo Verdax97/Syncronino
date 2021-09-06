@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
 public class HelpScript : MonoBehaviour
 {
-    public GameObject panel;
-    public void Clicked()
+    public void Clicked(string msg)
     {
-        panel.SetActive(!panel.activeSelf);
+        PopUpMessageController.instance.WritePopUp(msg);
     }
 }
