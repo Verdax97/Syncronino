@@ -15,8 +15,8 @@ public class RGBTVC : TimeValuesControll
     {
         timingInput.text = keyframe.timing.ToString();
         R.value = keyframe.values[0];
-        B.value = keyframe.values[1];
-        G.value = keyframe.values[2];
+        G.value = keyframe.values[1];
+        B.value = keyframe.values[2];
         SetFade(keyframe.fade);
     }
     public override void ModifyMaxValue(int maxValue)

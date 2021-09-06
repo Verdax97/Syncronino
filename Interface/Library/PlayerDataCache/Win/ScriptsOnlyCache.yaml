@@ -39,8 +39,6 @@ ScriptsOnlyBuild:
     - TMPro.TMP_SpriteAsset
     - TMPro.TMP_StyleSheet
     - TMPro.TextMeshProUGUI
-    Unity.Timeline.Editor.dll:
-    - TimelineProjectSettings
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
     - UnityEditor.TestTools.TestRunner.TestListCacheData

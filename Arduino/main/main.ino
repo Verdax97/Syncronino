@@ -1,12 +1,6 @@
 #include <ArduinoJson.h>
 #include <Servo.h>
-//define the pin used for debug
-#define debugPin 2
-int debug = 1;
-//saved animation
-String anim;
-//index for the saved animation
-int index = 0;
+
 //define lenght of the servo array
 #define maxNServo 12
 //the servo array 
@@ -15,8 +9,6 @@ Servo servos[maxNServo];
 int servosPin[maxNServo];
 //number of servos actually used
 int nServos = 0;
-//variables for controlling the animation flow
-unsigned long elapsedTime = 0, nextTiming = 0, delta = 0, last = 0;
 
 void setup()
 {
@@ -52,7 +44,6 @@ void playAnimation()
     {
     case 'a':
         //modify analog actuator
-        
         changeAnalog(doc["pins"][0], doc["values"][0]);
         break;
     case 'b':
