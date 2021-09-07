@@ -250,26 +250,26 @@ public class SingleElementPlay : MonoBehaviour
         singleValue.comunications = this;
         if (maxValue.text != "")
             singleValue.ModifyMaxValue(int.Parse(maxValue.text));
-        switch(dropdown.captionText.text)
-        {
-            case Constants.DIGITAL_TYPE:
-                GetComponent<Image>().color = digital;
-                break;
-            case Constants.ANALOG_TYPE:
-                GetComponent<Image>().color = analog;
-                break;
-            case Constants.SERVO_TYPE:
-                GetComponent<Image>().color = servo;
-                break;
-            case Constants.BUZZER_TYPE:
-                GetComponent<Image>().color = buzzer;
-                break;
-            case Constants.RGB_TYPE:
-                GetComponent<Image>().color = rgb;
-                break;
-            default:
-                return;
-        }
+        // switch(dropdown.captionText.text)
+        // {
+        //     case Constants.DIGITAL_TYPE:
+        //         GetComponent<Image>().color = digital;
+        //         break;
+        //     case Constants.ANALOG_TYPE:
+        //         GetComponent<Image>().color = analog;
+        //         break;
+        //     case Constants.SERVO_TYPE:
+        //         GetComponent<Image>().color = servo;
+        //         break;
+        //     case Constants.BUZZER_TYPE:
+        //         GetComponent<Image>().color = buzzer;
+        //         break;
+        //     case Constants.RGB_TYPE:
+        //         GetComponent<Image>().color = rgb;
+        //         break;
+        //     default:
+        //         return;
+        // }
     }
     public virtual void SetPin(List<int> pins)
     {
